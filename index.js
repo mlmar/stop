@@ -89,7 +89,7 @@ const render = () => {
 const renderStartMenu = function() {
   _main.html('');
   _main.html(el([
-    `<label> Press Space to Start </label>`
+    `<label> Tap to Start </label>`
   ]))
 }
 
@@ -112,7 +112,7 @@ const renderGame = function() {
   _main.append(el([
     `<div id="sg-end" class="sg-end sg-flex sg-flex-col sg-flex-center hidden">`,
       `<label id="sg-high-score"> High Score: 0 </label>`,
-      `<label>Press space to play again.<label>`,
+      `<label> Tap to Play Again.<label>`,
     `</div>`
   ]));
 
