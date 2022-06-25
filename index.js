@@ -1,7 +1,7 @@
 const SPACE = ' ';
 const ACTIVE = 'active';
 const SELECTED = 'selected';
-let ACCEL = .5;
+let ACCEL = .4;
 
 let _main = null;
 let _sgPoints = null

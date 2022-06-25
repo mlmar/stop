@@ -11,6 +11,10 @@ html, body {
   width: 100%;
 }
 
+body {
+  overflow: hidden;
+}
+
 .sg-flex, .sg-flex-col {
   display:flex;
 }
@@ -37,13 +41,13 @@ html, body {
 
 .sg-boxes {
   width: 100%;
-  height: 10rem;
+  height: 14rem;
   position: relative;
-  width: 65rem;
+  width: 80rem;
 }
 
 .box {
-  width: 2.5rem;
+  width: 3rem;
   height: 100%;
   position: absolute;
   border-radius: .5rem;
@@ -72,4 +76,19 @@ label {
 
 .sg-end {
   margin-top: 6rem;
+}
+
+@media screen 
+  and (max-width: 1000px){
+  html {
+    font-size: .4rem;
+  }
+
+  label {
+    font-size: 3rem;
+  }
+
+  .box {
+    width: 4rem;
+  }
 }
