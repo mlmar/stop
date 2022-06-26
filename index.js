@@ -47,10 +47,10 @@ const rand = (alternate) => {
       return Math.floor(Math.random() * (_xActive - _selectedWidth * 5));
     } else {
       let min = _xActive + _selectedWidth * 5;
-      return Math.floor(Math.random() * (_sgBoxes.width() - _selectedWidth - min) + min);
+      return Math.floor(Math.random() * (_sgBoxes.width() - (_selectedWidth * 2) - min) + min);
     }
   }
-  return Math.floor(Math.random() * (_sgBoxes.width() - _selectedWidth))
+  return Math.floor(Math.random() * (_sgBoxes.width() - _selectedWidth * 2))
 }
 
 const addListers = () => {
