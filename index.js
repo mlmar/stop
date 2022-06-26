@@ -13,7 +13,7 @@ let _sgHighScore = null;
 let _xSelected = 0;
 let _xActive = 0;
 
-let _accel = .2;
+let _accel = .15;
 let _incrementActive = 3;
 let _direction = 1;
 
