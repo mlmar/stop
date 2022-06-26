@@ -43,6 +43,36 @@ body {
   justify-content: center;
 }
 
+/******************* INDEX *******************/
+
+.sg-index {
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.sg-item {
+  flex-basis: 45%;
+  width: 90%;
+  text-decoration: none;
+  padding: 1rem;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.282);
+  margin-bottom: 3rem;
+}
+
+.sg-item:visited {
+  color: black;
+}
+
+.sg-item .sg-base {
+  height: 14rem;
+  width: 14rem;
+}
+
+/******************* END INDEX *******************/
+
+
+/******************* BOX *******************/
+
 .sg-boxes {
   width: 100%;
   height: 14rem;
@@ -82,15 +112,91 @@ label {
   margin-top: 6rem;
 }
 
+/******************* END BOX *******************/
+
+
+
+
+/******************* CIRCLE *******************/
+
+.sg-base {
+  font-size: 1vh;
+  --dim: 4em;
+
+  height: 60vmin;
+  width: 60vmin;
+  border-radius: 100%;
+}
+
+.sg-circle .sg-points {
+  margin-bottom: 3vh;
+}
+
+.sg-circle .sg-end {
+  margin-top: 3vh;
+}
+
+.sg-base {
+  position: relative;
+  border: .5em solid black;
+}
+
+.stick {
+  position: absolute;
+  /* background: black; */
+  height: var(--dim);
+  width: 100%;
+  align-self: center;
+  justify-content: flex-end;
+}
+
+.circle {
+  width: var(--dim);
+  height: var(--dim);
+  border-radius: 100%;
+}
+
+.circle.selected {
+  background: rgb(255, 194, 38);
+}
+
+.circle.active {
+  background: rgb(105, 192, 218);
+}
+
+/******************* END CIRCLE *******************/
+
+
+
 @media screen 
   and (max-width: 1000px){
   html {
     font-size: .4rem;
   }
 
-  label {
+  .label {
     font-size: 3rem;
   }
+
+
+  /******************* INDEX *******************/
+
+  .sg-index {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sg-item {
+    flex-basis: initial;
+    width: 90%;
+  }
+  
+  
+  /******************* END INDEX *******************/
+
+
+  /******************* BOX *******************/
+
 
   .box.selected {
     width: 5.2rem;
@@ -107,4 +213,26 @@ label {
   .sg-end {
     margin-top: 4rem;
   }
+
+  /******************* END BOX *******************/
+
+
+  /******************* CIRCLE *******************/
+
+  .sg-base {
+    font-size: 1vh;
+    --dim: 4em;
+  
+    height: 90vmin;
+    width: 90vmin;
+    border-radius: 100%;
+  }
+
+  .sg-circle label {
+    font-size: 6rem;
+  }
+  
+
+  /******************* END CIRCLE *******************/
+  
 }
