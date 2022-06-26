@@ -7,6 +7,12 @@
   touch-action: manipulation;
 }
 
+html {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+
 html, body {
   display: flex;
   height: 100%;
@@ -106,15 +112,6 @@ label {
 
 @media screen and (orientation: portrait) {
   html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100vh;
-    height: 100vw;
-    min-width: -webkit-fill-available;
-    overflow-x: hidden;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    position: fixed;
+    transform: rotate(90deg);
   }
 }
