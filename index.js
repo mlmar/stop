@@ -58,6 +58,7 @@ const addListers = () => {
 }
 
 const handleKeyPress = (event) => {
+  event.preventDefault();
   const key = event.key;
   if(key === SPACE || event.touches) {
     if(_state === 0) {
