@@ -36,7 +36,7 @@ let _state = 0;
 
 $(document).ready(() => {
   _main = $('#' + 'sg-main');
-  addListers();
+  addListeners();
   render();
 });
 
@@ -53,7 +53,7 @@ const rand = (alternate) => {
   return Math.floor(Math.random() * (_sgBoxes.width() - _selectedWidth * 2))
 }
 
-const addListers = () => {
+const addListeners = () => {
   $(document).on('keypress', handleKeyPress);
   $(document).on('touchstart', handleKeyPress);
 }
