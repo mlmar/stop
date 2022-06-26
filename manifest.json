@@ -5,5 +5,11 @@
   "display": "standalone",
   "theme_color": "#212121",
   "background_color": "#eaeaea",
-  "orientation":  "landscape"
+  "icons": [
+    {
+      "src": "m.ico",
+      "sizes": "300x300",
+      "type": "image/png"
+    }
+  ]
 }
