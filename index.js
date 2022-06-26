@@ -1,7 +1,6 @@
 const SPACE = ' ';
 const ACTIVE = 'active';
 const SELECTED = 'selected';
-let ACCEL = .4;
 
 let _main = null;
 let _sgPoints = null
@@ -14,7 +13,8 @@ let _sgHighScore = null;
 let _xSelected = 0;
 let _xActive = 0;
 
-let _incrementActive = 5;
+let _accel = .25;
+let _incrementActive = 3;
 let _direction = 1;
 
 let _points = 0;
@@ -189,7 +189,7 @@ const handleSpaceSelect = () => {
   if(overlap()) { // add point and speed if overlapping
     _points += 1;
     _direction *= -1;
-    _incrementActive += ACCEL;
+    _incrementActive += _accel;
     _xSelected = rand(true);
     _turns = 0;
   } else { // end game if not overlapping and set high score if possible

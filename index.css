@@ -40,11 +40,10 @@ body {
   width: 100%;
   height: 14rem;
   position: relative;
-  width: 80rem;
+  max-width: 80rem;
 }
 
 .box {
-  width: 3rem;
   height: 100%;
   position: absolute;
   border-radius: .5rem;
@@ -56,10 +55,12 @@ body {
 
 .box.selected {
   background: rgb(255, 194, 38);
+  width: 4rem;
 }
 
 .box.active {
   background: rgb(105, 192, 218);
+  width: 3.2rem;
 }
 
 label {
@@ -85,8 +86,20 @@ label {
     font-size: 3rem;
   }
 
-  .box {
-    width: 4rem;
+  .box.selected {
+    width: 5rem;
+  }
+  
+  .box.active {
+    width: 4.2rem;
+  }
+
+  .sg-points {
+    margin-bottom: 4rem;
+  }
+  
+  .sg-end {
+    margin-top: 4rem;
   }
 }
 
@@ -96,6 +109,7 @@ label {
     transform-origin: left top;
     width: 100vh;
     height: 100vw;
+    min-width: -webkit-fill-available;
     overflow-x: hidden;
     position: absolute;
     top: 100%;
