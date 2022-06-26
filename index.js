@@ -217,8 +217,8 @@ const validBounds = () => {
 // check if active and selected boxes are overlapping
 const overlap = () => {
   return (
-    (_selectedLeft <= _activeLeft && _activeLeft <= _selectedLeft + _width) ||
-    (_selectedRight <= _activeRight && _activeRight <= _selectedRight + _width) 
+    (_selectedLeft - 1 <= _activeLeft && _activeLeft <= _selectedLeft + _width + 1) ||
+    (_selectedRight - 1 <= _activeRight && _activeRight <= _selectedRight + _width + 1) 
   )
 }
 
