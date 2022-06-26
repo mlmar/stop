@@ -18,7 +18,6 @@ let _incrementActive = 3;
 let _direction = 1;
 
 let _points = 0;
-let _turns = 0;
 
 let _elapsed = 0;
 let _lastRender = 0;
@@ -27,7 +26,8 @@ let _selectedLeft = null;
 let _selectedRight = null;
 let _activeLeft = null;
 let _activeRight = null;
-let _width = null;
+let _selectedWidth = null;
+let _activeWidth = null;
 
 // 0 = menu
 // 1 = playing
@@ -43,13 +43,14 @@ $(document).ready(() => {
 const el = (arr) => $(arr.join(' '));
 const rand = (alternate) => {
   if(alternate) {
-    if(_selectedLeft > _sgBoxes.width() / 2) {
-      return Math.floor(Math.random() * (_sgBoxes.width() / 2 - _width));
+    if(_direction > 0) {
+      return Math.floor(Math.random() * (_xActive - _selectedWidth * 5));
     } else {
-      return Math.floor(Math.random() * ((_sgBoxes.width() - _width) - _sgBoxes.width() / 2) + _sgBoxes.width() / 2);
+      let min = _xActive + _selectedWidth * 5;
+      return Math.floor(Math.random() * (_sgBoxes.width() - _selectedWidth - min) + min);
     }
   }
-  return Math.floor(Math.random() * (_sgBoxes.width() - _width))
+  return Math.floor(Math.random() * (_sgBoxes.width() - _selectedWidth))
 }
 
 const addListers = () => {
@@ -113,7 +114,7 @@ const renderGame = function() {
   _main.append(el([
     `<div id="sg-end" class="sg-end sg-flex sg-flex-col sg-flex-center hidden">`,
       `<label id="sg-high-score"> High Score: 0 </label>`,
-      `<label> Tap to Play Again.<label>`,
+      `<label> Tap to Play Again<label>`,
     `</div>`
   ]));
 
@@ -141,7 +142,6 @@ const startGame = function() {
   _direction = 1;
   
   _points = 0;
-  _turns = 0;
   
   if(_xSelected < _xActive) {
     _direction = -1;
@@ -159,7 +159,6 @@ const handleInterval = (time) => {
 
   if(!validBounds()) {
     _direction *= -1;
-    _turns++;
   }
 
   _xActive += _direction * _incrementActive * (_elapsed / 16);
@@ -167,6 +166,8 @@ const handleInterval = (time) => {
   renderBoxes();
   renderPoints();
   calc();
+
+  checkTurn();
   
   _lastRender = time;
 
@@ -186,22 +187,33 @@ const renderPoints = () => {
   _sgPoints.text(_points);
 }
 
+const checkTurn = () => {
+  const pastRight = _direction > 0 && _xActive > _xSelected + _selectedWidth;
+  const pastLeft = _direction < 0 && _xActive < _xSelected - _activeWidth;
+  if(pastRight || pastLeft) {
+    endGame()
+  }
+}
+
 const handleSpaceSelect = () => {
   if(overlap()) { // add point and speed if overlapping
     _points += 1;
-    _direction *= -1;
-    _incrementActive += _accel;
     _xSelected = rand(true);
-    _turns = 0;
+    _incrementActive += _accel;
+    _direction *= -1;
   } else { // end game if not overlapping and set high score if possible
-    _direction = 0;
-    _state = 2;
-
-    if(_points > parseInt(localStorage.getItem('highScore') || 0)) {
-      localStorage.setItem('highScore', _points);
-    }
-    render();
+    endGame();
   }
+}
+
+const endGame = () => {
+  _direction = 0;
+  _state = 2;
+
+  if(_points > parseInt(localStorage.getItem('highScore') || 0)) {
+    localStorage.setItem('highScore', _points);
+  }
+  render();
 }
 
 // check if active box is within div
@@ -218,8 +230,8 @@ const validBounds = () => {
 // check if active and selected boxes are overlapping
 const overlap = () => {
   return (
-    (_selectedLeft - 1 <= _activeLeft && _activeLeft <= _selectedLeft + _width + 1) ||
-    (_selectedRight - 1 <= _activeRight && _activeRight <= _selectedRight + _width + 1) 
+    (_selectedLeft - 1 <= _activeLeft && _activeLeft <= _selectedLeft + _selectedWidth + 1) ||
+    (_selectedRight - 1 <= _activeRight && _activeRight <= _selectedRight + _selectedWidth + 1) 
   )
 }
 
@@ -229,5 +241,6 @@ const calc = () => {
   _selectedRight = parseFloat(_sgBoxSelected.css('right').replace('px', ''));
   _activeLeft = parseFloat(_sgBoxActive.css('left').replace('px', ''));
   _activeRight = parseFloat(_sgBoxActive.css('right').replace('px', ''));
-  _width = _sgBoxActive.width();
+  _selectedWidth = _sgBoxSelected.width();
+  _activeWidth = _sgBoxActive.width();
 }
