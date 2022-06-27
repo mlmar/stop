@@ -4,11 +4,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#212121",
-  "background_color": "#eaeaea",
-  "icons": [
-    {
-      "src": "m.ico",
-      "sizes": "256x256"
-    }
-  ]
+  "background_color": "#eaeaea"
 }
