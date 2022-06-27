@@ -3,12 +3,12 @@
   "name": "stop",
   "start_url": "https://mlmar.github.io/stop/",
   "scope": "https://mlmar.github.io/stop/",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "#212121",
   "background_color": "#eaeaea",
   "icons": [
     {
-      "src": "m.ico",
+      "src": "images/m.ico",
       "sizes": "any"
     }
   ]
