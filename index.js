@@ -8,6 +8,19 @@ $(document).ready(() => {
 const el = (arr) => $(arr.join(' '));
 
 const render = () => {
+  createItem1();
+  createItem2();
+  createItem3();
+
+  $('#' + 'sg-prompt').on('click', (e) => {
+    e.preventDefault();
+    localStorage.setItem('options', prompt(''));
+  });
+
+  console.log(`%c marcus was here`, 'background: black; color: lightgreen; font-weight: 600');
+}
+
+const createItem1 = () => {
   _main.append(el([
     `<a class="sg-item sg-flex" href="box.html">`,
       `<div id="sg-boxes" class="sg-flex sg-boxes">`,
@@ -19,7 +32,9 @@ const render = () => {
 
   $('#' + 'sg-box-selected').css('left', (Math.random() * ($('#' + 'sg-boxes').width() - $('#' + 'sg-box-selected').width() * 2)) + 'px');
   $('#' + 'sg-box-active').css('left', (Math.random() * ($('#' + 'sg-boxes').width() - $('#' + 'sg-box-active').width() * 2)) + 'px');
+}
 
+const createItem2 = () => {
   _main.append(el([
     `<a class="sg-item sg-flex sg-flex-middle" href="circle.html">`,
       `<div id="sg-base" class="sg-base sg-flex">`,
@@ -35,11 +50,22 @@ const render = () => {
 
   $('#' + 'sg-selected').css('transform', `rotate(${(Math.random() * 360)}deg)`);
   $('#' + 'sg-active').css('transform', `rotate(${(Math.random() * 360)}deg)`);
+}
 
-  $('#' + 'sg-prompt').on('click', () => {
-    event.preventDefault();
-    localStorage.setItem('options', prompt(''));
-  });
+const createItem3 = () => {
+  _main.append(el([
+    `<a class="sg-item sg-flex sg-flex-middle" href="circle.html?mode=1">`,
+      `<div id="sg-base" class="sg-base sg-flex">`,
+          `<div id="sg-selected-2" class="stick sg-flex">`,
+          `<div class="circle selected"></div>`,
+        `</div>`,
+        `<div id="sg-active-2" class="stick sg-flex">`,
+          `<div class="circle active"></div>`,
+        `</div>`,
+      `</div>`,
+    `</a>`
+  ]));
 
-  console.log(`%c marcus was here`, 'background: black; color: lightgreen; font-weight: 600');
+  $('#' + 'sg-selected-2').css('transform', `rotate(${(Math.random() * 360)}deg)`);
+  $('#' + 'sg-active-2').css('transform', `rotate(${(Math.random() * 360)}deg)`);
 }

@@ -138,7 +138,7 @@ label {
 
 .sg-base {
   font-size: 1vh;
-  --dim: 4em;
+  --dim: 6em;
 
   height: 60vmin;
   width: 60vmin;
@@ -147,6 +147,12 @@ label {
 
 .sg-circle .sg-points {
   margin-bottom: 3vh;
+}
+
+.sg-points-holder .sg-points:first-child {
+  margin-right: 1rem;
+  color: red;
+  font-size: 2rem;
 }
 
 .sg-circle .sg-end {
@@ -186,7 +192,7 @@ label {
 
 
 @media screen 
-  and (max-width: 1000px){
+  and (max-width: 900px){
   html {
     font-size: .4rem;
   }

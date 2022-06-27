@@ -1,7 +1,7 @@
 const SPACE = ' ';
 const ACTIVE = 'active';
 const SELECTED = 'selected';
-const HIGH_SCORE_CIRCLE = 'highScoreCircle';
+let HIGH_SCORE_CIRCLE = 'highScoreCircle';
 
 
 
@@ -12,26 +12,41 @@ const DEFAULTS = {
   MARGIN: .02,
   IVL: false,
   AUTO: false,
+  MODE: 0,
 }
 
 // parse options
 const parseOptions = () => {
   const options = localStorage.getItem('options');
   localStorage.removeItem('options');
-  if(!options) return;
-  const split = options.split(';').map(i => i.trim());
-  const parsed = split.filter(i => i.includes('=')).map(i => i.split('=').slice(0,2));
-  parsed.forEach(([key, val]) => {
+  if(options) {
+    const split = options.split(';').map(i => i.trim());
+    const parsed = split.filter(i => i.includes('=')).map(i => i.split('=').slice(0,2).map(i => i.trim()));
+    parsed.forEach(([key, val]) => {
+      const parsedVal = parseFloat(val);
+      DEFAULTS[key.toUpperCase()] = parsedVal !== NaN ? parsedVal : val;
+    });
+  }
+
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const params = Object.fromEntries(urlSearchParams.entries());
+  for(let key in params) {
+    const val = params[key];
     const parsedVal = parseFloat(val);
     DEFAULTS[key.toUpperCase()] = parsedVal !== NaN ? parsedVal : val;
-  });
+  }
+
+  if(DEFAULTS.MODE > 0) {
+    HIGH_SCORE_CIRCLE += DEFAULTS.MODE;
+  }
 }
 parseOptions();
 
 let pause = false;
 
 let _main = null;
-let _sgPoints = null
+let _sgPoints = null;
+let _sgPointsMax = null;
 let _sgBase = null;
 let _sgSelected = null;
 let _sgActive = null;
@@ -41,8 +56,10 @@ let _sgHighScore = null;
 let _accel = DEFAULTS.ACCEL;
 let _incrementActive = DEFAULTS.INCREMENT_ACTIVE;
 let _direction = DEFAULTS.DIRECTION;
+let _mode = DEFAULTS.MODE;
 
 let _points = 0;
+let _pointsMax = 0;
 
 let _elapsed = 0;
 let _lastRender = 0;
@@ -121,10 +138,25 @@ const renderStartMenu = function() {
 
 const renderGame = function() {
   _main.html('');
+
+  if(_mode === 0) {
+    _main.append(el([
+      `<label id="sg-points" class="sg-points"> 0 </label>`,
+    ]));
+  } else if(_mode >= 1) {
+    _main.append(el([
+      `<div class="sg-points-holder sg-flex sg-flex-center">`,
+        `<label id="sg-points" class="sg-points"> 0 </label>`,
+        `<label id="sg-points-max" class="sg-points"> 0 </label>`,
+      `</div>`
+    ]));
+    _sgPointsMax = $('#' + 'sg-points-max');
+  }
+
   _main.append(el([
-    `<label id="sg-points" class="sg-points"> 0 </label>`,
     `<div id="sg-base" class="sg-base sg-flex"></div>`
   ]));
+
 
   _sgPoints = $('#' + 'sg-points');
   _sgBoxes = $('#' + 'sg-base');
@@ -174,6 +206,7 @@ const startGame = function() {
   _direction = DEFAULTS.DIRECTION;
   
   _points = 0;
+  _pointsMax = 0;
   
   _missed = false;
   
@@ -221,14 +254,19 @@ const renderBoxes = () => {
 
 const renderPoints = () => {
   _sgPoints.text(_points);
+  if(_mode >= 1) {
+    _sgPointsMax.text(_pointsMax);
+  }
 }
 
 const checkMiss = () => {
   if(!_missed) {
     _missed = overlap();
   } else {
-    if(!overlap()) {
+    if(_mode === 0 && !overlap()) {
       endGame();
+    } else if(_mode >= 1 && !overlap()) {
+      handleMode1Penalty();
     }
   }
 }
@@ -243,13 +281,31 @@ const overlap = () => {
 
 const handleSpaceSelect = () => {
   if(overlap()) { // add point and speed if overlapping
-    _points += 1;
+    _points++;
+    _pointsMax++;
     _selectedAngle = rand(_selectedAngle);
     _incrementActive += _accel;
     _direction *= -1;
     _missed = false;
   } else { // end game if not overlapping and set high score if possible
+    if(_mode === 0) {
+      endGame();
+    } else if(_mode >= 1) {
+      handleMode1Penalty();
+    }
+  }
+}
+
+const handleMode1Penalty = () => {
+  _points = Math.floor(_points / 2);
+  if(_points <= 0) {
+    _sgPoints.text(0);
     endGame();
+  } else {
+    _selectedAngle = rand(_selectedAngle);
+    _incrementActive += _accel;
+    _direction *= -1;
+    _missed = false;
   }
 }
 
@@ -257,8 +313,8 @@ const endGame = () => {
   _direction = 0;
   _state = 2;
 
-  if(_points > parseInt(localStorage.getItem(HIGH_SCORE_CIRCLE) || 0)) {
-    localStorage.setItem(HIGH_SCORE_CIRCLE, _points);
+  if(_pointsMax > parseInt(localStorage.getItem(HIGH_SCORE_CIRCLE) || 0)) {
+    localStorage.setItem(HIGH_SCORE_CIRCLE, _pointsMax);
   }
   render();
 }
