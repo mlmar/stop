@@ -1,14 +1,15 @@
 {
   "short_name": "stop",
   "name": "stop",
-  "start_url": "https://mlmar.github.io/stop",
+  "start_url": "./",
+  "scope": ".",
   "display": "standalone",
   "theme_color": "#212121",
   "background_color": "#eaeaea",
   "icons": [
     {
       "src": "m.ico",
-      "szies": "any"
+      "sizes": "any"
     }
-  ]
+  ],
 }
