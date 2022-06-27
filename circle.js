@@ -11,6 +11,7 @@ const DEFAULTS = {
   DIRECTION: 1,
   MARGIN: .02,
   IVL: false,
+  AUTO: false,
 }
 
 // parse options
@@ -188,6 +189,10 @@ const handleInterval = (time) => {
 
   if(!pause) {
     _activeAngle += _direction * _incrementActive * (_elapsed / 16);
+  }
+
+  if(DEFAULTS.AUTO && overlap()) {
+    handleSpaceSelect()
   }
   
   _activeAngle = adjustAngle(_activeAngle);
