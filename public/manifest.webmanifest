@@ -1,8 +1,8 @@
 {
   "short_name": "stop",
   "name": "stop",
-  "start_url": "https://mlmar.github.io/stop/",
-  "scope": "https://mlmar.github.io/stop/",
+  "start_url": "https://mlmar.github.io/stop/index.html",
+  "scope": "https://mlmar.github.io/stop/index.html",
   "display": "standalone",
   "theme_color": "#212121",
   "background_color": "#eaeaea"
