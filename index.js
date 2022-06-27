@@ -38,7 +38,7 @@ const render = () => {
 
   $('#' + 'sg-prompt').on('click', () => {
     event.preventDefault();
-    prompt('Password'); // this is useless but i know people will try to guess
+    localStorage.setItem('options', prompt(''));
   });
 
   console.log(`%c marcus was here`, 'background: black; color: lightgreen; font-weight: 600');

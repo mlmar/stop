@@ -3,12 +3,28 @@ const ACTIVE = 'active';
 const SELECTED = 'selected';
 const HIGH_SCORE_CIRCLE = 'highScoreCircle';
 
+
+
 const DEFAULTS = {
   ACCEL: .05,
   INCREMENT_ACTIVE: 2,
   DIRECTION: 1,
   MARGIN: .02,
 }
+
+// parse options
+const parseOptions = () => {
+  const options = localStorage.getItem('options');
+  localStorage.removeItem('options');
+  if(!options) return;
+  const split = options.split(';').map(i => i.trim());
+  const parsed = split.filter(i => i.includes('=')).map(i => i.split('=').slice(0,2));
+  parsed.forEach(([key, val]) => {
+    const parsedVal = parseFloat(val);
+    if(typeof parsedVal === 'number') DEFAULTS[key] = parsedVal;
+  });
+}
+parseOptions();
 
 let pause = false;
 
