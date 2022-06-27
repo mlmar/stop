@@ -10,6 +10,7 @@ const DEFAULTS = {
   INCREMENT_ACTIVE: 2,
   DIRECTION: 1,
   MARGIN: .02,
+  IVL: false,
 }
 
 // parse options
@@ -21,7 +22,7 @@ const parseOptions = () => {
   const parsed = split.filter(i => i.includes('=')).map(i => i.split('=').slice(0,2));
   parsed.forEach(([key, val]) => {
     const parsedVal = parseFloat(val);
-    if(typeof parsedVal === 'number') DEFAULTS[key] = parsedVal;
+    DEFAULTS[key.toUpperCase()] = parsedVal !== NaN ? parsedVal : val;
   });
 }
 parseOptions();
@@ -195,7 +196,9 @@ const handleInterval = (time) => {
   renderPoints();
   calc();
 
-  checkMiss();
+  if(!DEFAULTS.IVL) {
+    checkMiss();
+  }
 
   _lastRender = time;
 
