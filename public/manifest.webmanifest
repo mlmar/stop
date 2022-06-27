@@ -4,11 +4,5 @@
   "scope": "https://mlmar.github.io/stop/",
   "display": "standalone",
   "theme_color": "#212121",
-  "background_color": "#eaeaea",
-  "icons": [
-    {
-      "src": "images/m.ico",
-      "sizes": "any"
-    }
-  ]
+  "background_color": "#eaeaea"
 }
