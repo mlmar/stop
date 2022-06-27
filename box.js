@@ -62,12 +62,14 @@ const rand = (alternate) => {
 const addListeners = () => {
   $(document).on('keypress', handleKeyPress);
   $(document).on('touchstart', handleKeyPress);
+  $(document).on('touchend', e => e.preventDefault());
+  $(document).on('mousedown', handleKeyPress);
 }
 
 const handleKeyPress = (event) => {
   event.preventDefault();
   const key = event.key;
-  if(key === SPACE || event.touches) {
+  if(key === SPACE || event.touches || event.type === 'mousedown') {
     if(_state === 0) {
       _state = 1;
       render();

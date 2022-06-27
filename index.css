@@ -207,6 +207,10 @@ label {
     flex-basis: initial;
     width: 90%;
   }
+
+  .sg-item:hover {
+    translate: initial;
+  }
   
   
   /******************* END INDEX *******************/
