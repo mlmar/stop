@@ -57,6 +57,11 @@ body {
   padding: 1rem;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.282);
   margin-bottom: 3rem;
+  transition: transform .3s ease;
+}
+
+.sg-item:hover {
+  transform: scale(1.05);
 }
 
 .sg-item:visited {
@@ -76,8 +81,8 @@ body {
 
 .sg-img-wrapper {
   display: flex;
-  height: 6rem;
-  width: 6rem;
+  height: 5rem;
+  width: 5rem;
 }
 
 /******************* END INDEX *******************/
