@@ -60,7 +60,7 @@ const rand = (offset) => {
 
 const addListeners = () => {
   $(document).on('keypress', handleKeyPress);
-  $(document).on('touchstart mousedown', handleKeyPress);
+  $(document).on('touchstart', handleKeyPress);
   $(document).on('touchend', e => e.preventDefault());
 }
 
