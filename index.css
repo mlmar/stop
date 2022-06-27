@@ -258,7 +258,10 @@ label {
   .sg-circle label {
     font-size: 6rem;
   }
-  
+
+  .sg-points-holder .sg-points:first-child {
+    font-size: 4rem;
+  }
 
   /******************* END CIRCLE *******************/
   
