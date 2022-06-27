@@ -17,8 +17,8 @@ const render = () => {
     `</a>`
   ]));
 
-  $('#' + 'sg-box-selected').css('left', (Math.random() * ($('#' + 'sg-boxes').width() - $('#' + 'sg-box-selected').width())) + 'px');
-  $('#' + 'sg-box-active').css('left', (Math.random() * ($('#' + 'sg-boxes').width() - $('#' + 'sg-box-active').width())) + 'px');
+  $('#' + 'sg-box-selected').css('left', (Math.random() * ($('#' + 'sg-boxes').width() - $('#' + 'sg-box-selected').width() * 2)) + 'px');
+  $('#' + 'sg-box-active').css('left', (Math.random() * ($('#' + 'sg-boxes').width() - $('#' + 'sg-box-active').width() * 2)) + 'px');
 
   _main.append(el([
     `<a class="sg-item sg-flex sg-flex-middle" href="circle.html">`,
@@ -35,4 +35,11 @@ const render = () => {
 
   $('#' + 'sg-selected').css('transform', `rotate(${(Math.random() * 360)}deg)`);
   $('#' + 'sg-active').css('transform', `rotate(${(Math.random() * 360)}deg)`);
+
+  $('#' + 'sg-prompt').on('click', () => {
+    event.preventDefault();
+    prompt('Password'); // this is useless but i know people will try to guess
+  });
+
+  console.log(`%c marcus was here`, 'background: black; color: lightgreen; font-weight: 600');
 }

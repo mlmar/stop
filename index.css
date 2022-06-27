@@ -69,6 +69,17 @@ body {
   --dim: 2em;
 }
 
+.sg-footer {
+  padding: 2% 5%;
+  justify-content: space-between;
+}
+
+.sg-img-wrapper {
+  display: flex;
+  height: 6rem;
+  width: 6rem;
+}
+
 /******************* END INDEX *******************/
 
 
