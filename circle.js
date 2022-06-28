@@ -300,7 +300,7 @@ const handleSpaceSelect = () => {
     _missed = false;
 
     if(_mode === 2 && _trapped === 1) {
-      _selectedAngle = adjustAngle(_selectedAngle + (120 * _direction));
+      _selectedAngle = adjustAngle(_selectedAngle + (80 * _direction));
     } else {
       _selectedAngle = rand(_selectedAngle);
     }
@@ -371,6 +371,17 @@ const calc = () => {
   _distance = getDistance(selectedOffset, activeOffset);
 }
 
+const calcTrapped = () => {
+  if(_trapped === 1) { // higher chance for another green if last green
+    _trapped = Math.floor(Math.random() * 10);
+    if(_trapped >= 1 && _trapped <= 6) {
+      _trapped = 1;
+    }
+  } else {
+    _trapped = Math.floor(Math.random() * 5);
+  }
+}
+
 const adjustAngle = (angle) => {
   if(angle < 0) {
     return angle + 360;
@@ -378,8 +389,4 @@ const adjustAngle = (angle) => {
     return angle - 360;
   }
   return angle;
-}
-
-const calcTrapped = () => {
-  _trapped = Math.floor(Math.random() * 5);
 }
