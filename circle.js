@@ -295,11 +295,17 @@ const handleSpaceSelect = () => {
 
     _points++;
     _pointsMax++;
-    _selectedAngle = rand(_selectedAngle);
     _incrementActive += _accel;
     _direction *= -1;
     _missed = false;
-    calcTrapped()
+
+    if(_mode === 2 && _trapped === 1) {
+      _selectedAngle = adjustAngle(_selectedAngle + (120 * _direction));
+    } else {
+      _selectedAngle = rand(_selectedAngle);
+    }
+
+    calcTrapped();
   } else { // end game if not overlapping and set high score if possible
     if(_mode === 1) {
       handleMode1Penalty();
