@@ -9,8 +9,6 @@
 
 html {
   position: fixed;
-  height: 100%;
-  width: 100%;
 }
 
 html, body {
@@ -19,12 +17,8 @@ html, body {
   width: 100%;
 }
 
-body {
-  overflow: auto;
-}
-
 .sg-flex, .sg-flex-col {
-  display:flex;
+  display: flex;
 }
 
 .sg-flex-col {
@@ -35,12 +29,20 @@ body {
   flex: 1 1;
 }
 
+.sg-flex-fit {
+  flex: 1 0 auto;
+}
+
 .sg-flex-center {
   align-items: center;;
 }
 
 .sg-flex-middle {
   justify-content: center;
+}
+
+.sg-flex-scroll {
+  overflow: auto;
 }
 
 /******************* INDEX *******************/
