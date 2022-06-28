@@ -10,6 +10,7 @@ const DEFAULTS = {
   INCREMENT_ACTIVE: 2,
   DIRECTION: 1,
   MARGIN: .02,
+  GREEN_ANGLE: 85,
   IVL: false,
   AUTO: false,
   MODE: 0,
@@ -226,8 +227,10 @@ const handleInterval = (time) => {
     _activeAngle += _direction * _incrementActive * (_elapsed / 16);
   }
 
-  if(DEFAULTS.AUTO && overlap()) {
-    handleSpaceSelect()
+  if(DEFAULTS.AUTO) {
+    if(overlap() && (_mode <= 1 || (_mode === 2 && _trapped !== 0))) {
+      handleSpaceSelect()
+    }
   }
   
   _activeAngle = adjustAngle(_activeAngle);
@@ -300,7 +303,7 @@ const handleSpaceSelect = () => {
     _missed = false;
 
     if(_mode === 2 && _trapped === 1) {
-      _selectedAngle = adjustAngle(_selectedAngle + (80 * _direction));
+      _selectedAngle = adjustAngle(_selectedAngle + (DEFAULTS.GREEN_ANGLE * _direction));
     } else {
       _selectedAngle = rand(_selectedAngle);
     }
@@ -374,8 +377,10 @@ const calc = () => {
 const calcTrapped = () => {
   if(_trapped === 1) { // higher chance for another green if last green
     _trapped = Math.floor(Math.random() * 10);
-    if(_trapped >= 1 && _trapped <= 6) {
+    if(_trapped >= 2 && _trapped <= 7) {
       _trapped = 1;
+    } else if(_trapped <= 1) {
+      _trapped = 0;
     }
   } else {
     _trapped = Math.floor(Math.random() * 5);
