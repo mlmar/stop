@@ -71,11 +71,13 @@ let _distance = null;
 let _margin = null;
 
 let _missed = false;
+let _trapped = false;
 
 // 0 = menu
 // 1 = playing
 // 2 = game end
 let _state = 0;
+
 
 $(document).ready(() => {
   _main = $('#' + 'sg-main');
@@ -139,11 +141,7 @@ const renderStartMenu = function() {
 const renderGame = function() {
   _main.html('');
 
-  if(_mode === 0) {
-    _main.append(el([
-      `<label id="sg-points" class="sg-points"> 0 </label>`,
-    ]));
-  } else if(_mode >= 1) {
+  if(_mode === 1) {
     _main.append(el([
       `<div class="sg-points-holder sg-flex sg-flex-center">`,
         `<label id="sg-points" class="sg-points"> 0 </label>`,
@@ -151,6 +149,10 @@ const renderGame = function() {
       `</div>`
     ]));
     _sgPointsMax = $('#' + 'sg-points-max');
+  } else {
+    _main.append(el([
+      `<label id="sg-points" class="sg-points"> 0 </label>`,
+    ]));
   }
 
   _main.append(el([
@@ -172,7 +174,7 @@ const renderGame = function() {
     `</div>`
   ]));
 
-  _sgSelected  = $('#' + 'sg-selected');
+  _sgSelected = $('#' + 'sg-selected');
   _sgActive = $('#' + 'sg-active');
 
   _main.append(el([
@@ -250,11 +252,13 @@ const renderBoxes = () => {
   _sgActive.css('transform', `rotate(${_activeAngle}deg)`);
   _sgSelected.removeClass('hidden');
   _sgActive.removeClass('hidden');
+  _sgSelected.find('.circle').toggleClass('trapped-0', _trapped === 0);
+  _sgSelected.find('.circle').toggleClass('trapped-1', _trapped === 1);
 }
 
 const renderPoints = () => {
   _sgPoints.text(_points);
-  if(_mode >= 1) {
+  if(_mode === 1) {
     _sgPointsMax.text(_pointsMax);
   }
 }
@@ -263,10 +267,14 @@ const checkMiss = () => {
   if(!_missed) {
     _missed = overlap();
   } else {
-    if(_mode === 0 && !overlap()) {
-      endGame();
-    } else if(_mode >= 1 && !overlap()) {
-      handleMode1Penalty();
+    if(!overlap()) {
+      if(_mode === 1) {
+        handleMode1Penalty();
+      } else if(_mode === 2) {
+        handleMode2Miss();
+      } else {
+        endGame();
+      }
     }
   }
 }
@@ -281,17 +289,22 @@ const overlap = () => {
 
 const handleSpaceSelect = () => {
   if(overlap()) { // add point and speed if overlapping
+    if(_mode === 2) {
+      if(handleMode2Penalty()) return;
+    }
+
     _points++;
     _pointsMax++;
     _selectedAngle = rand(_selectedAngle);
     _incrementActive += _accel;
     _direction *= -1;
     _missed = false;
+    calcTrapped()
   } else { // end game if not overlapping and set high score if possible
-    if(_mode === 0) {
-      endGame();
-    } else if(_mode >= 1) {
+    if(_mode === 1) {
       handleMode1Penalty();
+    } else {
+      endGame();
     }
   }
 }
@@ -306,6 +319,28 @@ const handleMode1Penalty = () => {
     _incrementActive += _accel;
     _direction *= -1;
     _missed = false;
+  }
+}
+
+const handleMode2Penalty = () => {
+  if(_trapped === 0) {
+    endGame();
+    return true;
+  } else if(_trapped === 1) {
+    _direction *= -1;
+  }
+}
+
+const handleMode2Miss = () => {
+  if(_trapped === 0) {
+    _pointsMax++;
+    _points++;
+    _selectedAngle = rand(_selectedAngle);
+    _direction *= -1;
+    _missed = false;
+    calcTrapped();
+  } else {
+    endGame();
   }
 }
 
@@ -337,4 +372,8 @@ const adjustAngle = (angle) => {
     return angle - 360;
   }
   return angle;
+}
+
+const calcTrapped = () => {
+  _trapped = Math.floor(Math.random() * 5);
 }

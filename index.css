@@ -71,7 +71,7 @@ body {
 .sg-item .sg-base {
   height: 14rem;
   width: 14rem;
-  --dim: 2em;
+  --dim: 4em;
 }
 
 .sg-footer {
@@ -185,6 +185,14 @@ label {
 
 .circle.active {
   background: rgb(105, 192, 218);
+}
+
+.circle.trapped-0 {
+  background: rgb(226, 0, 0);
+}
+
+.circle.trapped-1 {
+  background: rgb(30, 226, 0);
 }
 
 /******************* END CIRCLE *******************/

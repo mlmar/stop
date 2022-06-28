@@ -11,6 +11,7 @@ const render = () => {
   createItem1();
   createItem2();
   createItem3();
+  createItem4();
 
   $('#' + 'sg-prompt').on('click', (e) => {
     e.preventDefault();
@@ -68,4 +69,22 @@ const createItem3 = () => {
 
   $('#' + 'sg-selected-2').css('transform', `rotate(${(Math.random() * 360)}deg)`);
   $('#' + 'sg-active-2').css('transform', `rotate(${(Math.random() * 360)}deg)`);
+}
+
+const createItem4 = () => {
+  _main.append(el([
+    `<a class="sg-item sg-flex sg-flex-middle" href="circle.html?mode=2">`,
+      `<div id="sg-base" class="sg-base sg-flex">`,
+          `<div id="sg-selected-3" class="stick sg-flex">`,
+          `<div class="circle selected trapped-0"></div>`,
+        `</div>`,
+        `<div id="sg-active-3" class="stick sg-flex">`,
+          `<div class="circle active"></div>`,
+        `</div>`,
+      `</div>`,
+    `</a>`
+  ]));
+
+  $('#' + 'sg-selected-3').css('transform', `rotate(${(Math.random() * 360)}deg)`);
+  $('#' + 'sg-active-3').css('transform', `rotate(${(Math.random() * 360)}deg)`);
 }
