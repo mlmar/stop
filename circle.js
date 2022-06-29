@@ -275,7 +275,7 @@ const checkMiss = () => {
   } else {
     if(!overlap()) {
       if(_mode === 1) {
-        handleMode1Miss();
+        handleMode1Tap();
       } else if(_mode === 2) {
         handleMode2Miss();
       } else {
