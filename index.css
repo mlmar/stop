@@ -189,11 +189,11 @@ label {
   background: rgb(105, 192, 218);
 }
 
-.circle.trapped-0 {
+.circle.trapped-red {
   background: rgb(226, 0, 0);
 }
 
-.circle.trapped-1 {
+.circle.trapped-green {
   background: rgb(30, 226, 0);
 }
 
@@ -202,7 +202,7 @@ label {
 
 
 @media screen 
-  and (max-width: 900px){
+  and (max-width: 750px){
   html {
     font-size: .4rem;
   }

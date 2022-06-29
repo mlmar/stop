@@ -76,7 +76,7 @@ const createItem4 = () => {
     `<a class="sg-item sg-flex sg-flex-middle" href="circle.html?mode=2">`,
       `<div id="sg-base" class="sg-base sg-flex">`,
           `<div id="sg-selected-3" class="stick sg-flex">`,
-          `<div class="circle selected trapped-0"></div>`,
+          `<div class="circle selected trapped-green"></div>`,
         `</div>`,
         `<div id="sg-active-3" class="stick sg-flex">`,
           `<div class="circle active"></div>`,

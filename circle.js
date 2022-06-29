@@ -1,6 +1,8 @@
 const SPACE = ' ';
 const ACTIVE = 'active';
 const SELECTED = 'selected';
+const TRAPPED_GREEN = 'trapped_green';
+const TRAPPED_RED = 'trapped_red';
 let HIGH_SCORE_CIRCLE = 'highScoreCircle';
 
 
@@ -10,7 +12,7 @@ const DEFAULTS = {
   INCREMENT_ACTIVE: 2,
   DIRECTION: 1,
   MARGIN: .02,
-  GREEN_ANGLE: 85,
+  GREEN_ANGLE: 70,
   IVL: false,
   AUTO: false,
   MODE: 0,
@@ -72,7 +74,7 @@ let _distance = null;
 let _margin = null;
 
 let _missed = false;
-let _trapped = false;
+let _trapped = null;
 
 // 0 = menu
 // 1 = playing
@@ -111,7 +113,7 @@ const handleKeyPress = (event) => {
       render();
       startGame();
     } else if(_state === 1) {
-      handleSpaceSelect();
+      handleTap();
     } else {
       _state = 1;
       render();
@@ -162,14 +164,14 @@ const renderGame = function() {
 
 
   _sgPoints = $('#' + 'sg-points');
-  _sgBoxes = $('#' + 'sg-base');
+  _sgBase = $('#' + 'sg-base');
 
-  _sgBoxes.append(el([
+  _sgBase.append(el([
     `<div id="sg-selected" class="stick sg-flex hidden">`,
       `<div class="circle selected"></div>`,
     `</div>`
   ]));
-  _sgBoxes.append(el([
+  _sgBase.append(el([
     `<div id="sg-active" class="stick sg-flex hidden">`,
       `<div class="circle active"></div>`,
     `</div>`
@@ -213,10 +215,10 @@ const startGame = function() {
   
   _missed = false;
   
-  window.requestAnimationFrame(handleInterval)
+  window.requestAnimationFrame(handleLoop)
 }
 
-const handleInterval = (time) => {
+const handleLoop = (time) => {
   if(_lastRender === 0) {
     _lastRender = time;
   }
@@ -228,8 +230,8 @@ const handleInterval = (time) => {
   }
 
   if(DEFAULTS.AUTO) {
-    if(overlap() && (_mode <= 1 || (_mode === 2 && _trapped !== 0))) {
-      handleSpaceSelect()
+    if(overlap() && (_mode <= 1 || (_mode === 2 && _trapped !== TRAPPED_RED))) {
+      handleTap()
     }
   }
   
@@ -246,17 +248,18 @@ const handleInterval = (time) => {
   _lastRender = time;
 
   if(_state === 1) {
-    window.requestAnimationFrame(handleInterval)
+    window.requestAnimationFrame(handleLoop)
   }
 }
 
 const renderBoxes = () => {
   _sgSelected.css('transform', `rotate(${_selectedAngle}deg)`);
   _sgActive.css('transform', `rotate(${_activeAngle}deg)`);
+  // _sgBase.css('transform', `rotate(${-_activeAngle}deg)`);
   _sgSelected.removeClass('hidden');
   _sgActive.removeClass('hidden');
-  _sgSelected.find('.circle').toggleClass('trapped-0', _trapped === 0);
-  _sgSelected.find('.circle').toggleClass('trapped-1', _trapped === 1);
+  _sgSelected.find('.circle').toggleClass('trapped-green', _trapped === TRAPPED_GREEN);
+  _sgSelected.find('.circle').toggleClass('trapped-red', _trapped === TRAPPED_RED);
 }
 
 const renderPoints = () => {
@@ -272,7 +275,7 @@ const checkMiss = () => {
   } else {
     if(!overlap()) {
       if(_mode === 1) {
-        handleMode1Penalty();
+        handleMode1Miss();
       } else if(_mode === 2) {
         handleMode2Miss();
       } else {
@@ -290,10 +293,10 @@ const overlap = () => {
   return -_margin <= dist && dist <= _margin
 }
 
-const handleSpaceSelect = () => {
+const handleTap = () => {
   if(overlap()) { // add point and speed if overlapping
     if(_mode === 2) {
-      if(handleMode2Penalty()) return;
+      if(handleMode2Tap()) return;
     }
 
     _points++;
@@ -303,7 +306,7 @@ const handleSpaceSelect = () => {
     _missed = false;
 
     if(_mode === 2) {
-      if(_trapped === 1) {
+      if(_trapped === TRAPPED_GREEN) {
         _selectedAngle = adjustAngle(_selectedAngle + (DEFAULTS.GREEN_ANGLE * _direction));
       } else {
         _selectedAngle = rand(_selectedAngle);
@@ -314,14 +317,14 @@ const handleSpaceSelect = () => {
     }
   } else { // end game if not overlapping and set high score if possible
     if(_mode === 1) {
-      handleMode1Penalty();
+      handleMode1Tap();
     } else {
       endGame();
     }
   }
 }
 
-const handleMode1Penalty = () => {
+const handleMode1Tap = () => {
   _points = Math.floor(_points / 2);
   if(_points <= 0) {
     _sgPoints.text(0);
@@ -334,17 +337,17 @@ const handleMode1Penalty = () => {
   }
 }
 
-const handleMode2Penalty = () => {
-  if(_trapped === 0) {
+const handleMode2Tap = () => {
+  if(_trapped === TRAPPED_RED) {
     endGame();
     return true;
-  } else if(_trapped === 1) {
-    _direction *= -1;
+  } else if(_trapped === TRAPPED_GREEN) {
+    _direction *= -1; // maintain direction
   }
 }
 
 const handleMode2Miss = () => {
-  if(_trapped === 0) {
+  if(_trapped === TRAPPED_RED) {
     _pointsMax++;
     _points++;
     _selectedAngle = rand(_selectedAngle);
@@ -378,15 +381,19 @@ const calc = () => {
 }
 
 const calcTrapped = () => {
-  if(_trapped === 1) { // higher chance for another green if last green
-    _trapped = Math.floor(Math.random() * 10);
-    if(_trapped >= 2 && _trapped <= 7) {
-      _trapped = 1;
-    } else if(_trapped <= 1) {
-      _trapped = 0;
+  let chance = null;
+  if(_trapped === TRAPPED_GREEN) { // higher chance for another green if last green
+    chance = Math.floor(Math.random() * 11);
+    if(chance <= 6) {
+      _trapped = TRAPPED_GREEN;
+    } else if(chance <= 8) {
+      _trapped = TRAPPED_RED;
+    } else {
+      _trapped = null;
     }
   } else {
-    _trapped = Math.floor(Math.random() * 5);
+    chance = Math.floor(Math.random() * 5);
+    _trapped = chance <= 2 ? TRAPPED_GREEN : null;
   }
 }
 
