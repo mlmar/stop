@@ -8,20 +8,21 @@ $(document).ready(() => {
 const el = (arr) => $(arr.join(' '));
 
 const render = () => {
-  createItem1();
-  createItem2();
-  createItem3();
-  createItem4();
+  $backBtn.hide();
+  createCircle1();
+  createCircle2();
+  createCircle3();
+  createBox();
 
-  $('#' + 'sg-prompt').on('click', (e) => {
-    e.preventDefault();
-    localStorage.setItem('options', prompt(''));
-  });
+  // $('#' + 'sg-prompt').on('click', (e) => {
+  //   e.preventDefault();
+  //   localStorage.setItem('options', prompt(''));
+  // });
 
   console.log(`%c marcus was here`, 'background: black; color: lightgreen; font-weight: 600');
 }
 
-const createItem1 = () => {
+const createBox = () => {
   _main.append(el([
     `<a class="sg-item sg-flex" href="box.html">`,
       `<div id="sg-boxes" class="sg-flex sg-boxes">`,
@@ -35,7 +36,7 @@ const createItem1 = () => {
   $('#' + 'sg-box-active').css('left', (Math.random() * ($('#' + 'sg-boxes').width() - $('#' + 'sg-box-active').width() * 2)) + 'px');
 }
 
-const createItem2 = () => {
+const createCircle1 = () => {
   _main.append(el([
     `<a class="sg-item sg-flex sg-flex-middle" href="circle.html">`,
       `<div id="sg-base" class="sg-base sg-flex">`,
@@ -53,7 +54,7 @@ const createItem2 = () => {
   $('#' + 'sg-active').css('transform', `rotate(${(Math.random() * 360)}deg)`);
 }
 
-const createItem3 = () => {
+const createCircle2 = () => {
   _main.append(el([
     `<a class="sg-item sg-flex sg-flex-middle" href="circle.html?mode=1">`,
       `<div id="sg-base" class="sg-base sg-flex">`,
@@ -71,7 +72,7 @@ const createItem3 = () => {
   $('#' + 'sg-active-2').css('transform', `rotate(${(Math.random() * 360)}deg)`);
 }
 
-const createItem4 = () => {
+const createCircle3 = () => {
   _main.append(el([
     `<a class="sg-item sg-flex sg-flex-middle" href="circle.html?mode=2">`,
       `<div id="sg-base" class="sg-base sg-flex">`,

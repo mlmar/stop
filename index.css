@@ -77,13 +77,28 @@ html, body {
 }
 
 .sg-footer {
-  padding: 2% 5%;
+  padding: 0 5% 2%;
   justify-content: space-between;
 }
 
 .sg-img-wrapper {
   display: flex;
   height: 5rem;
+  width: 5rem;
+}
+
+.sg-back-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 99;
+  font-size: 4rem;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+.sg-back-btn img {
   width: 5rem;
 }
 
